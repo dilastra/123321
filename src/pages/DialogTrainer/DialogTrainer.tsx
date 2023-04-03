@@ -5,20 +5,20 @@ import {
   Configuration,
   OpenAIApi,
 } from "openai";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Chat, InputMessage } from "../../components";
 import { Emotions } from "../../components/Emotions";
-import Title from "antd/es/typography/Title";
 import styles from "./DialogTrainer.module.scss";
 import ManAvatar from "../../assets/images/ManAvatar.svg";
+import { useNavigate } from "react-router-dom";
 
-export const DialogTrainer = () => {
+const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
+  const navigate = useNavigate();
   const [currentEmotion, setCurrentEmotion] = useState<string>("удовлетворен");
   const [messages, setMessages] = useState<ChatCompletionResponseMessage[]>([
     {
       role: "system",
-      content:
-        "Ты покупатель в магазине. Ты хочешь купить iphone 12. В каждом своем сообщении передавай параметр эмоции, наиболее подходящий для реакции на высказываение User. Список доступных параметров эмоцию: {доволен}, {огорчен}, {удовлетворен}. По завершению диалога дай рекомендации для улучшения сообщения со стороны продавца чтобы повысить вероятность покупки клиентом.",
+      content: currentPrompt,
     },
   ]);
 
@@ -33,6 +33,12 @@ export const DialogTrainer = () => {
 
     return new OpenAIApi(openAiConfiguration);
   }, []);
+
+  useEffect(() => {
+    if (!currentPrompt) {
+      navigate("/");
+    }
+  }, [currentPrompt, navigate]);
 
   const sendMessageInChatOpenAi = async (
     messages: ChatCompletionResponseMessage[]
@@ -65,19 +71,25 @@ export const DialogTrainer = () => {
     setIsloading(false);
   };
 
+  const onClickBackButton = () => {
+    navigate("/");
+  };
+
   return (
     <Layout className={styles["chat-container"]}>
       <Header
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#1677ff",
+          backgroundColor: "#C861F9",
         }}
       >
-        <Title level={2} style={{ color: "#fff", margin: 0 }}>
-          Тема тренируемого диалога: Продажа Iphone 12
-        </Title>
+        <Button
+          style={{ color: "#C861F9", borderColor: "#C861F9" }}
+          onClick={onClickBackButton}
+        >
+          Назад
+        </Button>
       </Header>
       <Content
         style={{ overflow: "auto", display: "flex", flexDirection: "column" }}
@@ -100,6 +112,7 @@ export const DialogTrainer = () => {
           type="primary"
           onClick={onClickSendMessage}
           disabled={isLoading}
+          style={{ backgroundColor: "#C861F9" }}
         >
           Отправить
         </Button>
@@ -107,3 +120,5 @@ export const DialogTrainer = () => {
     </Layout>
   );
 };
+
+export default DialogTrainer;

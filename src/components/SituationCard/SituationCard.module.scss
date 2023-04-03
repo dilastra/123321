@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 83px;
+  align-items: center;
+  padding: 125px 40px 73px;
+  max-width: 420px;
+  background-color: #bde3ff;
+}
+
+.description {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 110%;
+  text-align: center;
+  color: #1e1e1e;
+}
+
+.button {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #ffffff;
+  padding: 20px 53px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background-color: #000000;
+  border-radius: 10px;
+  cursor: pointer;
+}
