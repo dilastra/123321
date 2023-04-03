@@ -1,0 +1,17 @@
+.emotions-container {
+  display: flex;
+  justify-content: center;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+.emotion-image-container {
+  max-height: 100%;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.image {
+  height: 100%;
+}

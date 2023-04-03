@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  align-items: center;
+  column-gap: 14px;
+}
+
+.avatar {
+  align-self: flex-start;
+}
+
+.right-align-message {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
