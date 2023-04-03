@@ -2,7 +2,6 @@ import BitterEmotion from "../../assets/images/bitter-emotion.jpg";
 import SatisfiedEmotion from "../../assets/images/satisfied-emotion.jpg";
 import PleasedEmotion from "../../assets/images/pleased-emotion.jpg";
 import styles from "./Emotions.module.scss";
-import { Card } from "antd";
 
 export const Emotions = ({ currentEmotion }: { currentEmotion: string }) => {
   const getImageForEmotion = (emotion: string) => {
