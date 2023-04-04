@@ -1,15 +1,11 @@
-import TextArea from "antd/es/input/TextArea";
+import { Input } from "antd";
 import { ChangeEventHandler } from "react";
 
 interface InputMessageProps {
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   value: string;
 }
 
 export const InputMessage = ({ onChange, value }: InputMessageProps) => (
-  <TextArea
-    style={{ resize: "none", height: 70 }}
-    onChange={onChange}
-    value={value}
-  />
+  <Input onChange={onChange} value={value} style={{ height: "70px" }} />
 );
