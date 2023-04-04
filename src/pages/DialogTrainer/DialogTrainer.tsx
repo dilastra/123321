@@ -29,7 +29,7 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
   const openAi = useMemo(() => {
     const openAiConfiguration = new Configuration({
       organization: "org-SM2qltV3Bg6oOX6HJ3b5tzAF",
-      apiKey: "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",
+      apiKey: "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",
     });
 
     return new OpenAIApi(openAiConfiguration);
