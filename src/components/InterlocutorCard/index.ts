@@ -1,0 +1,1 @@
+export { InterlocutorCard } from "./InterlocutorCard";
