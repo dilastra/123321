@@ -1,12 +1,12 @@
 import { Avatar, Button, Divider, Layout } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Content, Footer } from "antd/es/layout/layout";
 import {
   ChatCompletionResponseMessage,
   Configuration,
   OpenAIApi,
 } from "openai";
 import { useCallback, useMemo, useState } from "react";
-import { Chat, InputMessage } from "../../components";
+import { Chat, Header, InputMessage } from "../../components";
 import { Emotions } from "../../components/Emotions";
 import styles from "./DialogTrainer.module.scss";
 import ManAvatar from "../../assets/images/ManAvatar.svg";
@@ -25,7 +25,7 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
 
   const [userMessage, setUserMessage] = useState<string>("");
 
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [isLoading, setIsloading] = useState<boolean>(true);
 
   const openAi = useMemo(() => {
     const openAiConfiguration = new Configuration({
@@ -56,6 +56,7 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
       role: "user",
       content: "Здравствуйте. Чем я могу вам помочь?",
     };
+    setMessages((prev) => [newUserMessage, ...prev]);
     const newMessage: ChatCompletionResponseMessage = (
       await sendMessageInChatOpenAi([newUserMessage, ...messages])
     ).choices[0].message ?? { role: "assistant", content: "" };
@@ -67,6 +68,7 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
       setCurrentEmotion(emotion ?? "");
     }
     setMessages((prev) => [newMessage, ...prev]);
+    setIsloading(false);
   }, [currentPrompt, navigate, sendMessageInChatOpenAi]);
 
   useEventListener("keypress", (event) => {
@@ -97,26 +99,9 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
     setIsloading(false);
   };
 
-  const onClickBackButton = () => {
-    navigate("/");
-  };
-
   return (
     <Layout className={styles["chat-container"]}>
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#C861F9",
-        }}
-      >
-        <Button
-          style={{ color: "#C861F9", borderColor: "#C861F9" }}
-          onClick={onClickBackButton}
-        >
-          Назад
-        </Button>
-      </Header>
+      <Header></Header>
       <Content
         style={{ overflow: "auto", display: "flex", flexDirection: "column" }}
       >
