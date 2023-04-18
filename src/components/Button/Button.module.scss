@@ -1,0 +1,17 @@
+.button {
+  padding: 12px 30px;
+  background: #7d6bf2;
+  border-radius: 12px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+
+  &:hover {
+    background: #4d3bc2;
+  }
+}

@@ -1,15 +1,14 @@
-import { Avatar, Button, Divider, Layout } from "antd";
-import { Content, Footer } from "antd/es/layout/layout";
+import { Divider, Layout } from "antd";
+import { Content } from "antd/es/layout/layout";
 import {
   ChatCompletionResponseMessage,
   Configuration,
   OpenAIApi,
 } from "openai";
 import { useCallback, useMemo, useState } from "react";
-import { Chat, Header, InputMessage } from "../../components";
+import { Button, Chat, Footer, Header } from "../../components";
 import { Emotions } from "../../components/Emotions";
 import styles from "./DialogTrainer.module.scss";
-import ManAvatar from "../../assets/images/ManAvatar.svg";
 import { useNavigate } from "react-router-dom";
 import { useAsyncEffect, useEventListener } from "ahooks";
 
@@ -109,7 +108,10 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
         <Chat messages={messages.filter(({ role }) => role !== "system")} />
       </Content>
       <Divider style={{ marginTop: "0" }} />
-      <Footer className={styles["chat-footer"]}>
+      <Footer>
+        <Button>Завершить</Button>
+      </Footer>
+      {/* <Footer className={styles["chat-footer"]}>
         <Avatar
           size={64}
           icon={<img src={ManAvatar} alt="avatar" />}
@@ -127,7 +129,7 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
         >
           Отправить
         </Button>
-      </Footer>
+      </Footer> */}
     </Layout>
   );
 };
