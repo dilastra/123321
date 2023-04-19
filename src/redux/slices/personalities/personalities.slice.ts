@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getPersonalitiesThunkAction } from "./thunks-actions";
+import {
+  getPersonalitiesThunkAction,
+  getPersonalityThunkAction,
+} from "./thunks-actions";
 
 export interface PersonalitiesState {
   list: string[];
+  personality: {
+    name: string;
+    label: string;
+  } | null;
 }
 
 const initialState: PersonalitiesState = {
   list: [],
+  personality: null,
 };
 
 export const personalitiesSlice = createSlice({
@@ -16,6 +24,10 @@ export const personalitiesSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(getPersonalitiesThunkAction.fulfilled, (state, action) => {
       state.list = action.payload.personalities;
+    });
+
+    builder.addCase(getPersonalityThunkAction.fulfilled, (state, action) => {
+      state.personality = action.payload;
     });
   },
 });

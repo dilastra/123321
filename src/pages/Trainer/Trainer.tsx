@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Footer,
@@ -7,23 +7,11 @@ import {
   Chat,
 } from "../../components";
 import styles from "./Trainer.module.scss";
-// import { useSelector } from "react-redux";
-import {
-  getPersonalitiesThunkAction,
-  // personalitiesSelector,
-  useAppDispatch,
-} from "../../redux";
 
 const Trainer = () => {
   const [messages, setMessages] = useState<
     { align: "left" | "right"; message: string; user: string }[]
   >([]);
-  const dispatch = useAppDispatch();
-  // const personalities = useSelector(personalitiesSelector);
-
-  useEffect(() => {
-    dispatch(getPersonalitiesThunkAction());
-  }, [dispatch]);
 
   console.log(messages);
 
