@@ -5,12 +5,14 @@ interface MessageProps {
   children?: string;
   align?: "right" | "left";
   user?: string;
+  isPlaceholder: boolean;
 }
 
 export const Message = ({
   align = "left",
   children = "",
   user = "",
+  isPlaceholder = false,
 }: MessageProps) => {
   return (
     <div
@@ -24,7 +26,13 @@ export const Message = ({
         })}
       >
         <p className={styles.author}>{user}</p>
-        <p className={styles.text}>{children}</p>
+        <p
+          className={classNames(styles.text, {
+            [styles["placeholder-text"]]: isPlaceholder,
+          })}
+        >
+          {children}
+        </p>
       </div>
     </div>
   );

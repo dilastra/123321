@@ -8,9 +8,12 @@ interface SendMessageToPesonalityParams {
 export const sendMessageToPesonality = ({
   message,
   personality,
-}: SendMessageToPesonalityParams) =>
+}: SendMessageToPesonalityParams): Promise<{
+  answer: string;
+  emotion: string;
+}> =>
   KY.post(`ask/${personality}`, {
     body: JSON.stringify({
       message,
     }),
-  });
+  }).json();

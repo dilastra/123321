@@ -9,7 +9,12 @@ interface ChatProps {
 export const Messages = ({ messages = [] }: ChatProps) => (
   <div className={styles["messages-container"]}>
     {messages.map((message: any) => (
-      <Message key={generateUid()} align={message.align} user={message.user}>
+      <Message
+        key={generateUid()}
+        align={message.align}
+        user={message.user}
+        isPlaceholder={message?.isPlaceholder ?? false}
+      >
         {message.message}
       </Message>
     ))}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Chat.module.scss";
 import { Messages } from "./components";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
@@ -7,22 +7,37 @@ import { OverlayScrollbars } from "overlayscrollbars";
 import { Textarea } from "../Textarea";
 import { MicrofoneIcon, ShareIcon } from "../Icons";
 import { IconButton } from "../IconButton";
+import {
+  addUserMessage,
+  botMessagePlaceholder,
+  isLoadingMessagesSelector,
+  messagesSelector,
+  sendMessageThunkAction,
+  useAppDispatch,
+} from "../../redux";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-interface ChatProps {
-  messages?: { align: "left" | "right"; message: string; user: string }[];
-  onSendMessage?: (message: any) => void;
-}
-
-export const Chat = ({
-  messages = [],
-  onSendMessage = () => {},
-}: ChatProps) => {
+export const Chat = () => {
+  const dispatch = useAppDispatch();
   const messagesContainer = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const autoScrollref = useRef<HTMLDivElement>(null);
   const [inViewport] = useInViewport(autoScrollref);
-  const [initialize, instance] = useOverlayScrollbars();
+  const [initialize, instance] = useOverlayScrollbars({
+    options: {
+      scrollbars: {
+        autoHide: "leave",
+        autoHideDelay: 300,
+      },
+    },
+  });
   const [message, setMessage] = useState<string>("");
+  const messages = useSelector(messagesSelector);
+  const isLoadingMessages = useSelector(isLoadingMessagesSelector);
+  const search = useLocation().search;
+  const personalityFromUrl =
+    new URLSearchParams(search).get("personality") ?? "";
 
   useEffect(() => {
     if (ref.current) {
@@ -30,7 +45,7 @@ export const Chat = ({
     }
   }, [initialize]);
 
-  useEffect(() => {
+  const changeScrollViewport = useCallback(() => {
     if (messagesContainer.current) {
       const { elements } = instance() as OverlayScrollbars;
       const { viewport } = elements();
@@ -38,7 +53,27 @@ export const Chat = ({
         viewport.scrollTo({ top: messagesContainer.current.scrollHeight });
       }
     }
-  }, [inViewport, instance, messages]);
+  }, [instance, inViewport]);
+
+  useEffect(() => {
+    changeScrollViewport();
+  }, [changeScrollViewport, messages]);
+
+  const onSendMessage = () => {
+    dispatch(
+      addUserMessage({
+        align: "right",
+        message,
+        user: "Гостевая учетная запись",
+      })
+    );
+    dispatch(botMessagePlaceholder());
+    dispatch(
+      sendMessageThunkAction({ message, personality: personalityFromUrl })
+    );
+    setMessage("");
+    changeScrollViewport();
+  };
 
   return (
     <>
@@ -62,11 +97,8 @@ export const Chat = ({
             <MicrofoneIcon />
           </IconButton>
           <IconButton
-            disabled={!message}
-            onClick={() => {
-              onSendMessage(message);
-              setMessage("");
-            }}
+            disabled={!message || isLoadingMessages}
+            onClick={onSendMessage}
           >
             <ShareIcon />
           </IconButton>
