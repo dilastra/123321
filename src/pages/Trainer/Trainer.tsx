@@ -7,23 +7,25 @@ import {
   Chat,
 } from "../../components";
 import styles from "./Trainer.module.scss";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import {
   getPersonalitiesThunkAction,
-  personalitiesSelector,
+  // personalitiesSelector,
   useAppDispatch,
 } from "../../redux";
 
 const Trainer = () => {
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<
+    { align: "left" | "right"; message: string; user: string }[]
+  >([]);
   const dispatch = useAppDispatch();
-  const personalities = useSelector(personalitiesSelector);
+  // const personalities = useSelector(personalitiesSelector);
 
   useEffect(() => {
     dispatch(getPersonalitiesThunkAction());
   }, [dispatch]);
 
-  console.log(personalities);
+  console.log(messages);
 
   return (
     <div className={styles.container}>
@@ -34,8 +36,11 @@ const Trainer = () => {
           <div className={styles["chat-container"]}>
             <Chat
               messages={messages}
-              onNewMessage={(message) =>
-                setMessages((prev: any[]) => [message, ...prev])
+              onSendMessage={(message) =>
+                setMessages((prev: any[]) => [
+                  ...prev,
+                  { align: "right", message, user: "Гостевая учетная запись" },
+                ])
               }
             />
           </div>

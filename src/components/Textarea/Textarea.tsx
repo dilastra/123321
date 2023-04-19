@@ -14,7 +14,7 @@ export const Textarea = ({
   className = "",
 }: TextareaProps) => (
   <textarea
-    placeholder="Напишите ответ..."
+    placeholder="Напишите сообщение..."
     onChange={onChange}
     value={value}
     className={classNames(styles.textarea, className)}

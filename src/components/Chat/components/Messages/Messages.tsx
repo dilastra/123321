@@ -3,24 +3,15 @@ import styles from "./Messages.module.scss";
 import { Message } from "./components";
 
 interface ChatProps {
-  messages?: any;
+  messages?: { align: "left" | "right"; message: string; user: string }[];
 }
 
-export const Messages = ({ messages = [] }: ChatProps) => {
-  const getMessageWithoutEmotions = (message: string) => {
-    return message.replace(/{[а-яА-Я0-9_]+}/, "");
-  };
-
-  return (
-    <div className={styles["messages-container"]}>
-      {messages.map((message: any, index: number) => (
-        <Message
-          key={generateUid()}
-          align={message?.role === "user" ? "right" : "left"}
-        >
-          {getMessageWithoutEmotions(`${message?.content}${index}` ?? "")}
-        </Message>
-      ))}
-    </div>
-  );
-};
+export const Messages = ({ messages = [] }: ChatProps) => (
+  <div className={styles["messages-container"]}>
+    {messages.map((message: any) => (
+      <Message key={generateUid()} align={message.align} user={message.user}>
+        {message.message}
+      </Message>
+    ))}
+  </div>
+);

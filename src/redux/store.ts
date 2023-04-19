@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { personalitiesReducer } from "./slices";
+import { messagesReducer, personalitiesReducer } from "./slices";
 import { useDispatch } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     personalities: personalitiesReducer,
+    messages: messagesReducer,
   },
 });
 

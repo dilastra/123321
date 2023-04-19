@@ -2,12 +2,16 @@ import styles from "./Message.module.scss";
 import classNames from "classnames";
 
 interface MessageProps {
-  avatar?: string;
   children?: string;
   align?: "right" | "left";
+  user?: string;
 }
 
-export const Message = ({ align = "left", children = "" }: MessageProps) => {
+export const Message = ({
+  align = "left",
+  children = "",
+  user = "",
+}: MessageProps) => {
   return (
     <div
       className={classNames(styles["message-container"], {
@@ -19,7 +23,7 @@ export const Message = ({ align = "left", children = "" }: MessageProps) => {
           [styles["right-message"]]: align === "right",
         })}
       >
-        <p className={styles.author}>Кристина Владимировна</p>
+        <p className={styles.author}>{user}</p>
         <p className={styles.text}>{children}</p>
       </div>
     </div>

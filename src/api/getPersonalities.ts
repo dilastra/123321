@@ -1,8 +1,8 @@
 import KY from "./api";
 
-interface PersonalitiesResponse {
+interface GetPersonalitiesResponse {
   personalities: string[];
 }
 
-export const getPersonalities: () => Promise<PersonalitiesResponse> =
+export const getPersonalities: () => Promise<GetPersonalitiesResponse> =
   async () => await KY.get("whois").json();
