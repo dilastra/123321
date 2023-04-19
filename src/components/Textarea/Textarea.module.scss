@@ -1,0 +1,18 @@
+.textarea {
+  border: 0;
+  resize: none;
+  background: #f7f8fa;
+  border-radius: 12px;
+  outline: 0;
+  padding: 18px 21px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  height: 86px;
+  border: 2px solid transparent;
+  &:focus {
+    border: 2px solid #7d6bf2;
+  }
+}

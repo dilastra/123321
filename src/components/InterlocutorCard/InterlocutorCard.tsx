@@ -2,8 +2,12 @@ import styles from "./InterlocutorCard.module.scss";
 import classNames from "classnames";
 import Woman from "../../assets/images/rapture-woman.png";
 
-export const InterlocutorCard = () => (
-  <div className={styles.container}>
+export const InterlocutorCard = ({
+  className = "",
+}: {
+  className?: string;
+}) => (
+  <div className={classNames(styles.container, className)}>
     <div className={styles["avatar-container"]}>
       <img src={Woman} alt="avatar" />
     </div>

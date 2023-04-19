@@ -1,0 +1,36 @@
+.message-container {
+  display: flex;
+  justify-content: flex-start;
+
+  &_right-message {
+    justify-content: flex-end;
+  }
+
+  & ~ & {
+    margin-top: 40px;
+  }
+}
+
+.message {
+  padding: 24px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 150%;
+  color: #43375d;
+  max-width: 740px;
+}
+
+.right-message {
+  background: #f0eeff;
+}
+
+.author {
+  font-weight: 600;
+}
+
+.text {
+  font-weight: 400;
+}

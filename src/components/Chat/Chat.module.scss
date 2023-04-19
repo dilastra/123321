@@ -1,9 +1,21 @@
-.container {
-  display: flex;
-  flex-direction: column-reverse;
-  flex-grow: 1;
-  row-gap: 20px;
+.messages-container {
   width: 100%;
-  padding: 34px 60px;
+  height: 100%;
   overflow: auto;
+  display: flex;
+  align-items: flex-end;
+}
+
+.scrollbar-container {
+  max-height: 100%;
+  width: 100%;
+}
+
+.divider {
+  margin: 40px 0;
+  border-bottom: 1px solid #e8eaef;
+}
+
+.chat-textarea {
+  width: 100%;
 }

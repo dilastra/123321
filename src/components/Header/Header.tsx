@@ -1,8 +1,9 @@
 import { WomanAvatar } from "../Avatars";
 import styles from "./Header.module.scss";
+import classNames from "classnames";
 
-export const Header = () => (
-  <header className={styles.header}>
+export const Header = ({ className = "" }: { className?: string }) => (
+  <header className={classNames(styles.header, className)}>
     <div>
       <h1 className={styles.title}>Тренажер «Говорун»</h1>
       <h2 className={styles.subtitle}>
