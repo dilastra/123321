@@ -5,6 +5,8 @@ import { useOverlayScrollbars } from "overlayscrollbars-react";
 import { useInViewport } from "ahooks";
 import { OverlayScrollbars } from "overlayscrollbars";
 import { Textarea } from "../Textarea";
+import { MicrofoneIcon, ShareIcon } from "../Icons";
+import { IconButton } from "../IconButton";
 
 interface ChatProps {
   messages?: any[];
@@ -48,19 +50,31 @@ export const Chat = ({ messages = [], onNewMessage = () => {} }: ChatProps) => {
         </div>
       </div>
       <div className={styles["divider"]}></div>
-      <div className={styles["chat-input-container"]}>
-        <Textarea className={styles["chat-textarea"]} />
-        <button
-          type="button"
-          onClick={() =>
-            onNewMessage({
-              role: "asistant",
-              content: "Здравствуйте. Чем я могу вам помочь?",
-            })
-          }
-        >
-          отправить
-        </button>
+      <div className={styles["textarea-container"]}>
+        <Textarea className={styles["textarea"]} />
+        <div className={styles["buttons"]}>
+          <IconButton
+            className={styles["microfone-button"]}
+            onClick={() =>
+              onNewMessage({
+                role: "asistant",
+                content: "Здравствуйте. Чем я могу вам помочь?",
+              })
+            }
+          >
+            <MicrofoneIcon />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              onNewMessage({
+                role: "asistant",
+                content: "Здравствуйте. Чем я могу вам помочь?",
+              })
+            }
+          >
+            <ShareIcon />
+          </IconButton>
+        </div>
       </div>
     </>
   );

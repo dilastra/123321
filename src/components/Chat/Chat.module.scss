@@ -16,6 +16,28 @@
   border-bottom: 1px solid #e8eaef;
 }
 
-.chat-textarea {
+.textarea-container {
+  display: flex;
+  align-items: center;
+}
+
+.textarea {
   width: 100%;
+  margin-right: 15px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+button.microfone-button {
+  padding: 6px;
+  color: #7d6bf2;
+  background: #f0eeff;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  &:hover {
+    background: #e5e1ff;
+  }
 }

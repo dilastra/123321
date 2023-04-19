@@ -1,0 +1,14 @@
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #7d6bf2;
+  border-radius: 12px;
+  color: #fff;
+  border: 0;
+  padding: 9px;
+  cursor: pointer;
+  &:hover {
+    background-color: #4d3bc2;
+  }
+}
