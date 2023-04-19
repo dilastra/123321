@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Footer,
@@ -7,9 +7,23 @@ import {
   Chat,
 } from "../../components";
 import styles from "./Trainer.module.scss";
+import { useSelector } from "react-redux";
+import {
+  getPersonalitiesThunkAction,
+  personalitiesSelector,
+  useAppDispatch,
+} from "../../redux";
 
 const Trainer = () => {
   const [messages, setMessages] = useState<any>([]);
+  const dispatch = useAppDispatch();
+  const personalities = useSelector(personalitiesSelector);
+
+  useEffect(() => {
+    dispatch(getPersonalitiesThunkAction());
+  }, [dispatch]);
+
+  console.log(personalities);
 
   return (
     <div className={styles.container}>
