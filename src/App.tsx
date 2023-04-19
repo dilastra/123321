@@ -1,28 +1,16 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { DialogTrainer, Main } from "./pages";
-import { Suspense, useState } from "react";
+import { Trainer } from "./pages";
+import { Suspense } from "react";
 
-export const App = () => {
-  const [currentPrompt, setCurrentPrompt] = useState<string>();
+const router = createBrowserRouter([
+  {
+    path: "/trainer",
+    element: (
+      <Suspense fallback={<></>}>
+        <Trainer />
+      </Suspense>
+    ),
+  },
+]);
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <Suspense fallback={<></>}>
-          <Main onSelectSituation={setCurrentPrompt} />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/dialog-trainer",
-      element: (
-        <Suspense fallback={<></>}>
-          <DialogTrainer currentPrompt={currentPrompt ?? ""} />
-        </Suspense>
-      ),
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
-};
+export const App = () => <RouterProvider router={router} />;

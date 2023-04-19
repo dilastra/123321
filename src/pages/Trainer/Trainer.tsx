@@ -6,9 +6,9 @@ import {
   InterlocutorCard,
   Chat,
 } from "../../components";
-import styles from "./DialogTrainer.module.scss";
+import styles from "./Trainer.module.scss";
 
-const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
+const Trainer = () => {
   const [messages, setMessages] = useState<any>([]);
 
   return (
@@ -34,4 +34,4 @@ const DialogTrainer = ({ currentPrompt }: { currentPrompt: string }) => {
   );
 };
 
-export default DialogTrainer;
+export default Trainer;
