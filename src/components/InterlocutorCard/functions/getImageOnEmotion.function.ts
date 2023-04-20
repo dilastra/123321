@@ -6,7 +6,10 @@ import {
   SatisfiedWoman,
 } from "../../../assets/images";
 
-export const getImageOnEmotion = (emotion: string | null) => {
+export const getImageOnEmotion = (
+  emotion: string | null,
+  sex?: "woman" | "man"
+) => {
   switch (emotion) {
     case "angry":
       return AngryWoman;

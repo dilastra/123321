@@ -1,1 +1,0 @@
-export { SituationCard } from "./SituationCard";

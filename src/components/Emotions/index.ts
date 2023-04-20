@@ -1,1 +1,0 @@
-export { Emotions } from "./Emotions";
