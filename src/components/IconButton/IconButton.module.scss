@@ -8,6 +8,7 @@
   border: 0;
   padding: 9px;
   cursor: pointer;
+  transition: background-color 0.3s;
   &:hover {
     background-color: #4d3bc2;
   }

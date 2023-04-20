@@ -1,6 +1,6 @@
 .button {
   padding: 12px 30px;
-  background: #7d6bf2;
+  background-color: #7d6bf2;
   border-radius: 12px;
   font-family: "Inter";
   font-style: normal;
@@ -10,8 +10,14 @@
   color: #fff;
   border: 0;
   cursor: pointer;
+  transition: background-color 0.3s;
 
   &:hover {
-    background: #4d3bc2;
+    background-color: #4d3bc2;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: rgba(125, 107, 242, 0.3);
   }
 }

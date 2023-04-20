@@ -10,6 +10,7 @@ import { IconButton } from "../IconButton";
 import {
   addUserMessage,
   botMessagePlaceholder,
+  dialogIsCompleteSelector,
   isLoadingMessagesSelector,
   messagesSelector,
   sendMessageThunkAction,
@@ -35,6 +36,7 @@ export const Chat = () => {
   const [message, setMessage] = useState<string>("");
   const messages = useSelector(messagesSelector);
   const isLoadingMessages = useSelector(isLoadingMessagesSelector);
+  const dialogIsComplete = useSelector(dialogIsCompleteSelector);
   const search = useLocation().search;
   const personalityFromUrl =
     new URLSearchParams(search).get("personality") ?? "";
@@ -54,6 +56,12 @@ export const Chat = () => {
       }
     }
   }, [instance, inViewport]);
+
+  useEffect(() => {
+    if (dialogIsComplete) {
+      setMessage("");
+    }
+  }, [dialogIsComplete]);
 
   useEffect(() => {
     changeScrollViewport();
@@ -91,13 +99,14 @@ export const Chat = () => {
           className={styles["textarea"]}
           value={message}
           onChange={(e) => setMessage(e.currentTarget.value)}
+          disabled={isLoadingMessages || dialogIsComplete}
         />
         <div className={styles["buttons"]}>
           <IconButton className={styles["microfone-button"]}>
             <MicrofoneIcon />
           </IconButton>
           <IconButton
-            disabled={!message || isLoadingMessages}
+            disabled={!message || isLoadingMessages || dialogIsComplete}
             onClick={onSendMessage}
           >
             <ShareIcon />
