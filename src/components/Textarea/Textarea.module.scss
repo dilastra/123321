@@ -1,3 +1,16 @@
+.textarea-wrapper {
+  border: 2px solid transparent;
+  height: 86px;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: border-color 0.3s;
+
+  &_hover,
+  &:hover {
+    border: 2px solid #7d6bf2;
+  }
+}
+
 .textarea {
   resize: none;
   background: #f7f8fa;
@@ -11,11 +24,11 @@
   line-height: 150%;
   height: 86px;
   border: 2px solid transparent;
-  transition: border-color 0.3s;
-  overflow: hidden;
+  transition: border-color, background-color, 0.3s;
+
   &:focus,
   &:hover {
-    border: 2px solid #7d6bf2;
+    background-color: #fff;
   }
 
   &:disabled {

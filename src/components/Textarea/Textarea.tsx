@@ -1,4 +1,9 @@
-import { ChangeEventHandler, KeyboardEventHandler } from "react";
+import {
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  useRef,
+  useState,
+} from "react";
 import styles from "./Textarea.module.scss";
 import classNames from "classnames";
 
@@ -17,14 +22,26 @@ export const Textarea = ({
   className = "",
   disabled = false,
 }: TextareaProps) => {
+  const [isHover, setIsHover] = useState<boolean>(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
+
   return (
-    <textarea
-      placeholder="Напишите сообщение..."
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      value={value}
-      className={classNames(styles.textarea, className)}
-      disabled={disabled}
-    ></textarea>
+    <div
+      className={classNames(styles["textarea-wrapper"], {
+        [styles["textarea-wrapper_hover"]]: isHover,
+      })}
+    >
+      <textarea
+        placeholder="Напишите сообщение..."
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        onFocus={() => setIsHover(true)}
+        onBlur={() => setIsHover(false)}
+        value={value}
+        className={classNames(styles.textarea, className)}
+        disabled={disabled}
+        ref={ref}
+      ></textarea>
+    </div>
   );
 };
