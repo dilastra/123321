@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, KeyboardEvent } from "react";
 import styles from "./Chat.module.scss";
 import { Messages } from "./components";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
-import { useInViewport } from "ahooks";
+import { useAsyncEffect, useDebounceFn, useInViewport } from "ahooks";
 import { OverlayScrollbars } from "overlayscrollbars";
 import { Textarea } from "../Textarea";
 import { MicrofoneIcon, ShareIcon } from "../Icons";
@@ -18,8 +18,11 @@ import {
 } from "../../redux";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useAudioRecorder } from "../../hooks";
+import { getTextFromSound } from "../../api";
 
 export const Chat = () => {
+  const { startRecord, stopRecord, result } = useAudioRecorder();
   const dispatch = useAppDispatch();
   const messagesContainer = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -67,6 +70,26 @@ export const Chat = () => {
     changeScrollViewport();
   }, [changeScrollViewport, messages]);
 
+  useAsyncEffect(async () => {
+    if (result) {
+      const formData = new FormData();
+      const oggFile = new File([result], "input.ogg");
+      formData.append("input", oggFile);
+      const { result: decodeAudio } = await getTextFromSound(formData);
+      setMessage(decodeAudio);
+    }
+  }, [result]);
+
+  const { run: sendMessageWithDebounce } = useDebounceFn(
+    (message: string) => {
+      dispatch(botMessagePlaceholder());
+      dispatch(
+        sendMessageThunkAction({ message, personality: personalityFromUrl })
+      );
+    },
+    { wait: 500 }
+  );
+
   const onSendMessage = () => {
     dispatch(
       addUserMessage({
@@ -75,12 +98,28 @@ export const Chat = () => {
         user: "Гостевая учетная запись",
       })
     );
-    dispatch(botMessagePlaceholder());
-    dispatch(
-      sendMessageThunkAction({ message, personality: personalityFromUrl })
-    );
+    sendMessageWithDebounce(message);
     setMessage("");
     changeScrollViewport();
+  };
+
+  const onKeyDownInTextArea = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.code.toLowerCase() === "enter" && !event.shiftKey) {
+      if (message.length > 0) {
+        onSendMessage();
+      }
+
+      event.preventDefault();
+      return;
+    }
+  };
+
+  const onStartRecord = () => {
+    startRecord();
+  };
+
+  const onEndRecord = () => {
+    stopRecord();
   };
 
   return (
@@ -98,11 +137,17 @@ export const Chat = () => {
         <Textarea
           className={styles["textarea"]}
           value={message}
+          onKeyDown={onKeyDownInTextArea}
           onChange={(e) => setMessage(e.currentTarget.value)}
           disabled={isLoadingMessages || dialogIsComplete}
         />
         <div className={styles["buttons"]}>
-          <IconButton className={styles["microfone-button"]}>
+          <IconButton
+            className={styles["microfone-button"]}
+            onMouseDown={onStartRecord}
+            onMouseLeave={onEndRecord}
+            onMouseUp={onEndRecord}
+          >
             <MicrofoneIcon />
           </IconButton>
           <IconButton

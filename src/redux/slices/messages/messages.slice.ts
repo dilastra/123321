@@ -49,7 +49,7 @@ export const messagesSlice = createSlice({
         ...state.list,
         {
           align: "left",
-          message: "печатает...",
+          message: "печатает",
           user: "Кристина Владимировна",
           isPlaceholder: true,
         },

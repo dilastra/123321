@@ -2,7 +2,7 @@
   "name": "dialog-trainer",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://192.168.21.35",
+  "proxy": "https://govorun.lan-peo.ru/",
   "dependencies": {
     "@reduxjs/toolkit": "1.9.5",
     "ahooks": "3.7.6",
@@ -10,6 +10,7 @@
     "classnames": "2.3.2",
     "ky": "0.33.3",
     "openai": "3.2.1",
+    "opus-media-recorder": "^0.8.0",
     "overlayscrollbars": "2.1.1",
     "overlayscrollbars-react": "0.5.0",
     "react": "18.2.0",

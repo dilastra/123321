@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import styles from "./Message.module.scss";
 import classNames from "classnames";
+import { useInterval } from "ahooks";
 
 interface MessageProps {
   children?: string;
@@ -14,6 +16,27 @@ export const Message = ({
   user = "",
   isPlaceholder = false,
 }: MessageProps) => {
+  const [dots, setDots] = useState<string>("");
+  const [intervalTime, setIntervalTime] = useState<number | undefined>(500);
+
+  useInterval(() => {
+    if (dots.length === 3) {
+      setDots("");
+      return;
+    }
+
+    setDots((prev) => `${prev}.`);
+  }, intervalTime);
+
+  useEffect(() => {
+    if (isPlaceholder) {
+      setIntervalTime(300);
+      return;
+    }
+
+    setIntervalTime(undefined);
+  }, [isPlaceholder]);
+
   return (
     <div
       className={classNames(styles["message-container"], {
@@ -32,6 +55,7 @@ export const Message = ({
           })}
         >
           {children}
+          <span className={styles["dots"]}>{dots}</span>
         </p>
       </div>
     </div>
