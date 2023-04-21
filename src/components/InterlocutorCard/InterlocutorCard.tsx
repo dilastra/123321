@@ -19,12 +19,12 @@ export const InterlocutorCard = ({
   const search = useLocation().search;
   const personalityFromUrl =
     new URLSearchParams(search).get("personality") ?? "hr";
-  const { name, post } = getPersonForPersonality(personalityFromUrl);
+  const { name, post, sex } = getPersonForPersonality(personalityFromUrl);
 
   return (
     <div className={classNames(styles.container, className)}>
       <div className={styles["avatar-container"]}>
-        <img src={getImageOnEmotion(emotion)} alt="avatar" />
+        <img src={getImageOnEmotion(emotion, sex)} alt="avatar" />
       </div>
       <p className={styles.name}>{name}</p>
       <p className={styles.post}>{post}</p>

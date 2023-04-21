@@ -1,8 +1,13 @@
 import {
+  AngryMan,
   AngryWoman,
+  HappyMan,
   HappyWoman,
+  NervousMan,
   NervousWoman,
+  NeutralMan,
   NeutralWoman,
+  SatisfiedMan,
   SatisfiedWoman,
 } from "../../../assets/images";
 
@@ -12,16 +17,16 @@ export const getImageOnEmotion = (
 ) => {
   switch (emotion) {
     case "angry":
-      return AngryWoman;
+      return sex === "man" ? AngryMan : AngryWoman;
     case "nervous":
-      return NervousWoman;
+      return sex === "man" ? NervousMan : NervousWoman;
     case "neutral":
-      return NeutralWoman;
+      return sex === "man" ? NeutralMan : NeutralWoman;
     case "satisfied":
-      return SatisfiedWoman;
+      return sex === "man" ? SatisfiedMan : SatisfiedWoman;
     case "happy":
-      return HappyWoman;
+      return sex === "man" ? HappyMan : HappyWoman;
     default:
-      return NeutralWoman;
+      return sex === "man" ? NeutralMan : NeutralWoman;
   }
 };

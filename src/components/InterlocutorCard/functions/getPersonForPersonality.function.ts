@@ -1,7 +1,7 @@
 export const getPersonForPersonality = (
   personality: string | null
 ): {
-  sex: string;
+  sex: "woman" | "man";
   name: string;
   post: string;
 } => {
