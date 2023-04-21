@@ -16,14 +16,27 @@
   border-bottom: 1px solid #e8eaef;
 }
 
-.textarea-container {
+.chat-controls-container {
   display: flex;
-  align-items: center;
+  width: 100%;
+}
+
+.textarea-container {
+  width: 100%;
+  margin-right: 15px;
 }
 
 .textarea {
   width: 100%;
-  margin-right: 15px;
+}
+
+.textarea-hint {
+  color: #929baa;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 140%;
 }
 
 .buttons {

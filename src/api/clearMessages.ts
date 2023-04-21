@@ -5,4 +5,4 @@ interface ClearMessagesParams {
 }
 
 export const clearMessages = ({ personality = "" }: ClearMessagesParams) =>
-  KY.post(`ask/${personality}/end`);
+  KY.post(`ask/init/${personality}`);

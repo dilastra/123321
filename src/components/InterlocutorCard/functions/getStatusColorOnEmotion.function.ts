@@ -5,8 +5,7 @@ export const getStatusColorOnEmotion = (emotion: string | null) => {
       return "negative-status";
     case "satisfied":
     case "happy":
-      return "Вы заинтересовали собеседника";
-    case "positive-status":
+      return "positive-status";
     case "neutral":
     default:
       return "";

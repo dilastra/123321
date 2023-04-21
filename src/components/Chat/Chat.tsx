@@ -10,6 +10,7 @@ import { IconButton } from "../IconButton";
 import {
   addUserMessage,
   botMessagePlaceholder,
+  botPersonSelector,
   dialogIsCompleteSelector,
   isLoadingMessagesSelector,
   messagesSelector,
@@ -40,6 +41,7 @@ export const Chat = () => {
   const messages = useSelector(messagesSelector);
   const isLoadingMessages = useSelector(isLoadingMessagesSelector);
   const dialogIsComplete = useSelector(dialogIsCompleteSelector);
+  const { name } = useSelector(botPersonSelector);
   const search = useLocation().search;
   const personalityFromUrl =
     new URLSearchParams(search).get("personality") ?? "";
@@ -82,7 +84,7 @@ export const Chat = () => {
 
   const { run: sendMessageWithDebounce } = useDebounceFn(
     (message: string) => {
-      dispatch(botMessagePlaceholder());
+      dispatch(botMessagePlaceholder({ userName: name }));
       dispatch(
         sendMessageThunkAction({ message, personality: personalityFromUrl })
       );
@@ -133,14 +135,19 @@ export const Chat = () => {
         </div>
       </div>
       <div className={styles["divider"]}></div>
-      <div className={styles["textarea-container"]}>
-        <Textarea
-          className={styles["textarea"]}
-          value={message}
-          onKeyDown={onKeyDownInTextArea}
-          onChange={(e) => setMessage(e.currentTarget.value)}
-          disabled={isLoadingMessages || dialogIsComplete}
-        />
+      <div className={styles["chat-controls-container"]}>
+        <div className={styles["textarea-container"]}>
+          <Textarea
+            className={styles["textarea"]}
+            value={message}
+            onKeyDown={onKeyDownInTextArea}
+            onChange={(e) => setMessage(e.currentTarget.value)}
+            disabled={isLoadingMessages || dialogIsComplete}
+          />
+          <p className={styles["textarea-hint"]}>
+            Отправить - Enter; Перенос строки - Shift+Enter
+          </p>
+        </div>
         <div className={styles["buttons"]}>
           <IconButton
             className={styles["microfone-button"]}

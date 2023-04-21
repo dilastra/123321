@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   getPersonalitiesThunkAction,
   getPersonalityThunkAction,
@@ -6,6 +6,11 @@ import {
 
 export interface PersonalitiesState {
   list: string[];
+  botPerson: {
+    name: string;
+    sex: "woman" | "man" | undefined;
+    post: string;
+  };
   personality: {
     name: string;
     label: string;
@@ -14,13 +19,29 @@ export interface PersonalitiesState {
 
 const initialState: PersonalitiesState = {
   list: [],
+  botPerson: {
+    name: "",
+    sex: undefined,
+    post: "",
+  },
   personality: null,
 };
 
 export const personalitiesSlice = createSlice({
   name: "personalities",
   initialState,
-  reducers: {},
+  reducers: {
+    setBotPerson: (
+      state,
+      action: PayloadAction<{
+        name: string;
+        sex: "woman" | "man" | undefined;
+        post: string;
+      }>
+    ) => {
+      state.botPerson = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(getPersonalitiesThunkAction.fulfilled, (state, action) => {
       state.list = action.payload.personalities;
@@ -33,4 +54,5 @@ export const personalitiesSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
+export const { setBotPerson } = personalitiesSlice.actions;
 export default personalitiesSlice.reducer;

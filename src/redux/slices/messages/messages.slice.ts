@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
+  clearMessagesThunkAction,
   getFeedbackThunkAction,
   sendMessageThunkAction,
 } from "./thunks-actions";
@@ -30,10 +31,6 @@ export const messagesSlice = createSlice({
     setDialogIsComplete: (state) => {
       state.dialogIsComplete = true;
     },
-    setDialogStart: (state) => {
-      state.list = [];
-      state.dialogIsComplete = false;
-    },
     addUserMessage: (
       state,
       action: PayloadAction<{
@@ -44,13 +41,16 @@ export const messagesSlice = createSlice({
     ) => {
       state.list = [...state.list, action.payload];
     },
-    botMessagePlaceholder: (state) => {
+    botMessagePlaceholder: (
+      state,
+      action: PayloadAction<{ userName: string }>
+    ) => {
       state.list = [
         ...state.list,
         {
           align: "left",
           message: "печатает",
-          user: "Кристина Владимировна",
+          user: action.payload.userName,
           isPlaceholder: true,
         },
       ];
@@ -91,14 +91,18 @@ export const messagesSlice = createSlice({
       state.isLoading = false;
       state.dialogIsComplete = true;
     });
+    builder.addCase(clearMessagesThunkAction.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(clearMessagesThunkAction.fulfilled, (state) => {
+      state.isLoading = false;
+      state.list = [];
+      state.dialogIsComplete = false;
+    });
   },
 });
 
-export const {
-  addUserMessage,
-  botMessagePlaceholder,
-  setDialogIsComplete,
-  setDialogStart,
-} = messagesSlice.actions;
+export const { addUserMessage, botMessagePlaceholder, setDialogIsComplete } =
+  messagesSlice.actions;
 
 export default messagesSlice.reducer;

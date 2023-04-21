@@ -1,4 +1,5 @@
 import personalitiesReducer from "./personalities.slice";
 export { personalitiesReducer };
+export * from "./personalities.slice";
 export * from "./selectors";
 export * from "./thunks-actions";

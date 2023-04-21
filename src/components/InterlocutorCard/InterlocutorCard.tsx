@@ -1,14 +1,12 @@
 import styles from "./InterlocutorCard.module.scss";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { emotionSelector } from "../../redux";
+import { botPersonSelector, emotionSelector } from "../../redux";
 import {
   getImageOnEmotion,
-  getPersonForPersonality,
   getStatusColorOnEmotion,
   getStatusTextOnEmotion,
 } from "./functions";
-import { useLocation } from "react-router-dom";
 
 export const InterlocutorCard = ({
   className = "",
@@ -16,10 +14,7 @@ export const InterlocutorCard = ({
   className?: string;
 }) => {
   const emotion = useSelector(emotionSelector);
-  const search = useLocation().search;
-  const personalityFromUrl =
-    new URLSearchParams(search).get("personality") ?? "hr";
-  const { name, post, sex } = getPersonForPersonality(personalityFromUrl);
+  const { name, post, sex } = useSelector(botPersonSelector);
 
   return (
     <div className={classNames(styles.container, className)}>
