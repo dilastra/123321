@@ -1,8 +1,14 @@
 import { useCallback, useEffect, useRef, useState, KeyboardEvent } from "react";
 import styles from "./Chat.module.scss";
+import classNames from "classnames";
 import { Messages } from "./components";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
-import { useAsyncEffect, useDebounceFn, useInViewport } from "ahooks";
+import {
+  useAsyncEffect,
+  useDebounceFn,
+  useInViewport,
+  useTimeout,
+} from "ahooks";
 import { OverlayScrollbars } from "overlayscrollbars";
 import { Textarea } from "../Textarea";
 import { MicrofoneIcon, ShareIcon } from "../Icons";
@@ -21,6 +27,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useAudioRecorder } from "../../hooks";
 import { getTextFromSound } from "../../api";
+import { LoaderIcon } from "../../Icons";
 
 export const Chat = () => {
   const { startRecord, stopRecord, result } = useAudioRecorder();
@@ -29,6 +36,8 @@ export const Chat = () => {
   const ref = useRef<HTMLDivElement>(null);
   const autoScrollref = useRef<HTMLDivElement>(null);
   const [inViewport] = useInViewport(autoScrollref);
+  const [loadingMessageFromSound, setLoadingMessageFromSound] =
+    useState<boolean>(false);
   const [initialize, instance] = useOverlayScrollbars({
     options: {
       scrollbars: {
@@ -37,7 +46,11 @@ export const Chat = () => {
       },
     },
   });
+  const [timeoutStopRecord, setTimeoutStopRecord] = useState<
+    number | undefined
+  >();
   const [message, setMessage] = useState<string>("");
+  const [recordIsStarting, setRecordIsStarting] = useState<boolean>(false);
   const messages = useSelector(messagesSelector);
   const isLoadingMessages = useSelector(isLoadingMessagesSelector);
   const dialogIsComplete = useSelector(dialogIsCompleteSelector);
@@ -74,11 +87,13 @@ export const Chat = () => {
 
   useAsyncEffect(async () => {
     if (result) {
+      setLoadingMessageFromSound(true);
       const formData = new FormData();
       const oggFile = new File([result], "input.ogg");
       formData.append("input", oggFile);
       const { result: decodeAudio } = await getTextFromSound(formData);
       setMessage(decodeAudio);
+      setLoadingMessageFromSound(false);
     }
   }, [result]);
 
@@ -117,12 +132,20 @@ export const Chat = () => {
   };
 
   const onStartRecord = () => {
+    setTimeoutStopRecord(30000);
     startRecord();
+    setRecordIsStarting(true);
   };
 
   const onEndRecord = () => {
+    setTimeoutStopRecord(undefined);
     stopRecord();
+    setRecordIsStarting(false);
   };
+
+  useTimeout(() => {
+    onEndRecord();
+  }, timeoutStopRecord);
 
   return (
     <>
@@ -150,12 +173,16 @@ export const Chat = () => {
         </div>
         <div className={styles["buttons"]}>
           <IconButton
-            className={styles["microfone-button"]}
+            disabled={isLoadingMessages || dialogIsComplete}
+            className={classNames(styles["microfone-button"], {
+              [styles["active-microfone"]]: recordIsStarting,
+              [styles["rotate-loader"]]: loadingMessageFromSound,
+            })}
             onMouseDown={onStartRecord}
             onMouseLeave={onEndRecord}
             onMouseUp={onEndRecord}
           >
-            <MicrofoneIcon />
+            {loadingMessageFromSound ? <LoaderIcon /> : <MicrofoneIcon />}
           </IconButton>
           <IconButton
             disabled={!message || isLoadingMessages || dialogIsComplete}

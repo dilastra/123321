@@ -19,7 +19,7 @@ import {
 } from "../../redux";
 import styles from "./Trainer.module.scss";
 import { useSelector } from "react-redux";
-import { InfoIcon } from "../../assets/icons";
+import { InfoIcon } from "../../Icons";
 import { setBotPerson } from "../../redux";
 import { useEffect } from "react";
 import { getPersonForPersonality } from "../../functions";
