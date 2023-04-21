@@ -18,6 +18,7 @@ import {
 } from "../../redux";
 import styles from "./Trainer.module.scss";
 import { useSelector } from "react-redux";
+import { InfoIcon } from "../../assets/icons";
 
 const Trainer = () => {
   const dispatch = useAppDispatch();
@@ -52,13 +53,23 @@ const Trainer = () => {
         </div>
       </main>
       <Footer className={styles.footer}>
-        <Button
-          className={styles["end-button"]}
-          onClick={() => (dialogIsComplete ? startDialog() : onFinishDialog())}
-          disabled={isLoadingMessages}
-        >
-          {dialogIsComplete ? "Начать" : "Завершить"}
-        </Button>
+        <div className={styles["footer-content"]}>
+          <div className={styles["hint"]}>
+            <InfoIcon className={styles["hint-icon"]} />
+            <p className={styles["hint-text"]}>
+              Чтобы получить фидбек по диалогу, нажмите кнопку «Завершить»
+            </p>
+          </div>
+          <Button
+            className={styles["end-button"]}
+            onClick={() =>
+              dialogIsComplete ? startDialog() : onFinishDialog()
+            }
+            disabled={isLoadingMessages}
+          >
+            {dialogIsComplete ? "Начать" : "Завершить"}
+          </Button>
+        </div>
       </Footer>
     </div>
   );
