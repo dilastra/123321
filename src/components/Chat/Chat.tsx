@@ -28,6 +28,7 @@ import { useLocation } from "react-router-dom";
 import { useAudioRecorder } from "../../hooks";
 import { getTextFromSound } from "../../api";
 import { LoaderIcon } from "../../Icons";
+import { ChatPlaceholder } from "../ChatPlaceholder";
 
 export const Chat = () => {
   const { startRecord, stopRecord, result } = useAudioRecorder();
@@ -45,6 +46,7 @@ export const Chat = () => {
         autoHideDelay: 300,
       },
     },
+    defer: true,
   });
   const [timeoutStopRecord, setTimeoutStopRecord] = useState<
     number | undefined
@@ -60,20 +62,20 @@ export const Chat = () => {
     new URLSearchParams(search).get("personality") ?? "";
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && messages.length > 0) {
       initialize(ref.current);
     }
-  }, [initialize]);
+  }, [initialize, messages.length]);
 
   const changeScrollViewport = useCallback(() => {
-    if (messagesContainer.current) {
+    if (messagesContainer.current && instance() && messages.length > 0) {
       const { elements } = instance() as OverlayScrollbars;
       const { viewport } = elements();
       if (inViewport) {
         viewport.scrollTo({ top: messagesContainer.current.scrollHeight });
       }
     }
-  }, [instance, inViewport]);
+  }, [instance, messages.length, inViewport]);
 
   useEffect(() => {
     if (dialogIsComplete) {
@@ -150,12 +152,17 @@ export const Chat = () => {
   return (
     <>
       <div className={styles["messages-container"]}>
-        <div className={styles["scrollbar-container"]} ref={ref}>
-          <div ref={messagesContainer} className={styles["messages"]}>
-            <Messages messages={messages} />
-            <div ref={autoScrollref} />
+        {messages.length === 0 && (
+          <ChatPlaceholder className={styles["chat-placeholder"]} />
+        )}
+        {messages?.length > 0 && (
+          <div className={styles["scrollbar-container"]} ref={ref}>
+            <div ref={messagesContainer} className={styles["messages"]}>
+              <Messages messages={messages} />
+              <div ref={autoScrollref} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className={styles["divider"]}></div>
       <div className={styles["chat-controls-container"]}>

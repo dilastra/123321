@@ -4,7 +4,5 @@ interface GetFeedpackParams {
   personality: string;
 }
 
-export const getFeedback = async ({ personality }: GetFeedpackParams) => {
-  console.log(personality);
-  return await KY.post(`ask/${personality}/end`).json();
-};
+export const getFeedback = async ({ personality }: GetFeedpackParams) =>
+  await KY.post(`ask/${personality}/end`).json();
