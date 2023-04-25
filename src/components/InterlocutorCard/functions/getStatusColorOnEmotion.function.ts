@@ -1,12 +1,12 @@
 export const getStatusColorOnEmotion = (emotion: string | null) => {
   switch (emotion) {
     case "angry":
-    case "nervous":
+    case "sad":
       return "negative-status";
-    case "satisfied":
+    case "excited":
     case "happy":
       return "positive-status";
-    case "neutral":
+    case "calm":
     default:
       return "";
   }

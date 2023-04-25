@@ -18,13 +18,13 @@ export const getImageOnEmotion = (
   switch (emotion) {
     case "angry":
       return sex === "man" ? AngryMan : AngryWoman;
-    case "nervous":
+    case "sad":
       return sex === "man" ? NervousMan : NervousWoman;
-    case "neutral":
+    case "calm":
       return sex === "man" ? NeutralMan : NeutralWoman;
-    case "satisfied":
-      return sex === "man" ? SatisfiedMan : SatisfiedWoman;
     case "happy":
+      return sex === "man" ? SatisfiedMan : SatisfiedWoman;
+    case "excited":
       return sex === "man" ? HappyMan : HappyWoman;
     default:
       return sex === "man" ? NeutralMan : NeutralWoman;
