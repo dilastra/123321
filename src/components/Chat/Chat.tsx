@@ -7,7 +7,7 @@ import {
   useAsyncEffect,
   useDebounceFn,
   useInViewport,
-  useTimeout,
+  useInterval,
 } from "ahooks";
 import { OverlayScrollbars } from "overlayscrollbars";
 import { Textarea } from "../Textarea";
@@ -29,6 +29,7 @@ import { useAudioRecorder } from "../../hooks";
 import { getTextFromSound } from "../../api";
 import { LoaderIcon } from "../../Icons";
 import { ChatPlaceholder } from "../ChatPlaceholder";
+import { VoiceRecordingTimer } from "../VoiceRecordingTimer";
 
 export const Chat = () => {
   const { startRecord, stopRecord, result } = useAudioRecorder();
@@ -48,10 +49,11 @@ export const Chat = () => {
     },
     defer: true,
   });
-  const [timeoutStopRecord, setTimeoutStopRecord] = useState<
+  const [intervalForTimer, setIntervalForTimer] = useState<
     number | undefined
   >();
   const [message, setMessage] = useState<string>("");
+  const [remainingTime, setRemainingTime] = useState<number>(25);
   const [recordIsStarting, setRecordIsStarting] = useState<boolean>(false);
   const messages = useSelector(messagesSelector);
   const isLoadingMessages = useSelector(isLoadingMessagesSelector);
@@ -134,20 +136,25 @@ export const Chat = () => {
   };
 
   const onStartRecord = () => {
-    setTimeoutStopRecord(30000);
+    setIntervalForTimer(1000);
     startRecord();
     setRecordIsStarting(true);
   };
 
   const onEndRecord = () => {
-    setTimeoutStopRecord(undefined);
+    setIntervalForTimer(undefined);
+    setRemainingTime(30);
     stopRecord();
     setRecordIsStarting(false);
   };
 
-  useTimeout(() => {
-    onEndRecord();
-  }, timeoutStopRecord);
+  useInterval(() => {
+    if (remainingTime === 0) {
+      onEndRecord();
+      return;
+    }
+    setRemainingTime((prev) => --prev);
+  }, intervalForTimer);
 
   return (
     <>
@@ -165,6 +172,15 @@ export const Chat = () => {
         )}
       </div>
       <div className={styles["divider"]}></div>
+      <div>
+        <VoiceRecordingTimer
+          className={classNames(styles["timer"], {
+            [styles["timer-active"]]: intervalForTimer,
+          })}
+          remainingTime={remainingTime}
+          totalTime={25}
+        />
+      </div>
       <div className={styles["chat-controls-container"]}>
         <div className={styles["textarea-container"]}>
           <Textarea

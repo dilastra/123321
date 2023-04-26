@@ -6,3 +6,4 @@ export { InterlocutorCard } from "./InterlocutorCard";
 export { Chat } from "./Chat/Chat";
 export * from "./Icons";
 export { IconButton } from "./IconButton";
+export { VoiceRecordingTimer } from "./VoiceRecordingTimer";

@@ -16,7 +16,7 @@ export const getPersonForPersonality = (
       return {
         sex: "woman",
         name: "Кристина Владимировна",
-        post: "Покупатель магазина re:Store",
+        post: 'Покупатель магазина "Мир Apple"',
       };
     case "angry":
       return {
