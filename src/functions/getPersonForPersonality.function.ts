@@ -12,6 +12,12 @@ export const getPersonForPersonality = (
         name: "Кристина Владимировна",
         post: "HR-менеджер",
       };
+    case "upsale":
+      return {
+        sex: "woman",
+        name: "Кристина Владимировна",
+        post: 'Покупатель магазина "Мир Apple"',
+      };
     case "buyer":
       return {
         sex: "woman",
